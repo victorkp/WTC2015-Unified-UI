@@ -1,4 +1,4 @@
-package com.victor.kaiser.pendergrast.unified.demo;
+package com.victor.kaiser.pendergrast.unified.demo.shared;
 
 /**
  * Created by vkaiser-pendergrast on 1/8/15.

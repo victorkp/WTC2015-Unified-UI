@@ -1,4 +1,4 @@
-package com.victor.kaiser.pendergrast.unified.demo;
+package com.victor.kaiser.pendergrast.unified.demo.shared;
 
 public class SerialComm {
 

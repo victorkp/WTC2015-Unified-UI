@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_ready"
+        android:src="@mipmap/ic_ready"
         android:padding="16dp" />
 
     <FrameLayout
@@ -30,7 +30,6 @@
             android:layout_gravity="bottom|center_horizontal"
             android:textColor="#FFFFFF"
             android:textSize="50px"
-            android:background="@drawable/text_gradient"
             android:text="@string/live_card_ready"/>
 
     </FrameLayout>

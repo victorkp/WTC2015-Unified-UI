@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- From: file:/home/vkaiser-pendergrast/Dropbox/GitHub/DriveSafePrivate/Gradle/bluetoothSPP/build/intermediates/bundles/debug/res/values-sw600dp-v13/values.xml -->
-    <eat-comment/>
-    <dimen name="bluetooth_spp_padding">10dp</dimen>
-    <dimen name="bluetooth_spp_text_size">25sp</dimen>
-</resources>

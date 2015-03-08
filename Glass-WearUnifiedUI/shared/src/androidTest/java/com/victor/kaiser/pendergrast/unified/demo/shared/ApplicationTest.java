@@ -1,4 +1,4 @@
-package com.victor.kaiser.pendergrast.unified.demo;
+package com.victor.kaiser.pendergrast.unified.demo.shared;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

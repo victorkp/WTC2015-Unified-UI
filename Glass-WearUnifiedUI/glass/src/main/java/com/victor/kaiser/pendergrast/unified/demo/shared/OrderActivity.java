@@ -1,9 +1,7 @@
-package com.victor.kaiser.pendergrast.unified.demo;
+package com.victor.kaiser.pendergrast.unified.demo.shared;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 
 public class OrderActivity extends Activity implements LiveCardService.SandwichListener {
@@ -20,6 +18,7 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			if (service instanceof LiveCardService.LiveCardBinder) {
 				mServiceBinder = (LiveCardService.LiveCardBinder) service;
+				mServiceBinder.setSandwichListener(OrderActivity.this);
 			}
 
 			mBoundToService = true;
@@ -36,6 +35,7 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 		super.onCreate(savedInstanceState);
 
 		// Keep the screen on
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		setContentView(R.layout.activity_order);
 

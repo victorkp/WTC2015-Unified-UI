@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">Glass-Wear UnifiedUI</string>
+    <string name="voice_start_command">make me a sandwich</string>
+
     <string name="title_activity_menu">MenuActivity</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_order_submission">OrderSubmissionActivity</string>
 
-    <string name="live_card_read">Ready for order</string>
+    <string name="live_card_ready">Ready for order</string>
     <string name="stop">Stop</string>
     <string name="bread">Bread:</string>
     <string name="cheese">Cheese:</string>
