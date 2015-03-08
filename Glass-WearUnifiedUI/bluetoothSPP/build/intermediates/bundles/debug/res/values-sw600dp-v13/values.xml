@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/home/vkaiser-pendergrast/Dropbox/GitHub/wearable-techcon-2015/Glass-WearUnifiedUI/bluetoothSPP/src/main/res/values-sw600dp/dimens.xml -->
+    <eat-comment/>
+    <dimen name="bluetooth_spp_padding">10dp</dimen>
+    <dimen name="bluetooth_spp_text_size">25sp</dimen>
+</resources>

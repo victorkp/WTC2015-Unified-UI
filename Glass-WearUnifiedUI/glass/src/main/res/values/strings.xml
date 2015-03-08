@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Glass-Wear UnifiedUI</string>
+    <string name="title_activity_menu">MenuActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_order_submission">OrderSubmissionActivity</string>
+
+    <string name="live_card_read">Ready for order</string>
+    <string name="stop">Stop</string>
+    <string name="bread">Bread:</string>
+    <string name="cheese">Cheese:</string>
+
+    <!-- Status Messages -->
+    <string name="pick_bread">Pick bread</string>
+    <string name="pick_cheese">Pick cheese</string>
+    <string name="making_sandwich">Sandwich</string>
+    <string name="done">Order ready for pickup!</string>
+
+</resources>
