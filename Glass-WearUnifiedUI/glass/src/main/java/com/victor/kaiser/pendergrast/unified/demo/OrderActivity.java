@@ -2,14 +2,12 @@ package com.victor.kaiser.pendergrast.unified.demo;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.WindowManager;
 import android.widget.TextView;
-
-import com.victor.kaiser.pendergrast.unified.shared.R;
-
 
 public class OrderActivity extends Activity implements LiveCardService.SandwichListener {
 
@@ -26,6 +24,9 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 			if (service instanceof LiveCardService.LiveCardBinder) {
 				mBinder = (LiveCardService.LiveCardBinder) service;
 				mBinder.setOnSandwichListener(OrderActivity.this);
+
+				// Request a bread selection as soon as we're bound
+				mBinder.requestBreadSelection();
 			}
 
 			mBoundToService = true;
@@ -52,6 +53,8 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 
 		// Start off by asking user to select bread
 		mStatus.setText(R.string.pick_bread);
+
+		bindService(new Intent(this, LiveCardService.class), mServiceConn, 0);
 	}
 
 	@Override
@@ -73,6 +76,7 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 	public void onBreadPicked(String bread) {
 		mBreadSelection.setText(bread);
 		mStatus.setText(R.string.pick_cheese);
+		mBinder.requestCheeseSelection();
 	}
 
 	/**
@@ -97,6 +101,7 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 					@Override
 					public void run() {
 						mStatus.setText(R.string.done);
+						mBinder.requestOrderReadyAlert();
 					}
 				});
 			}

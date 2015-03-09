@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.victor.kaiser.pendergrast.unified.shared.R;
+import com.victor.kaiser.pendergrast.unified.demo.R;
 
 import app.akexorcist.bluetoothspp.BluetoothState;
 import app.akexorcist.bluetoothspp.DeviceList;
@@ -35,7 +35,6 @@ public class MainActivity extends ActionBarActivity implements BridgeService.Dev
 
 	private TextView mStatus;
 	private TextView mGlassStatus;
-	private Button mGlassPick;
 	private TextView mWearStatus;
 
 	private boolean mGlassConnected;
@@ -70,15 +69,6 @@ public class MainActivity extends ActionBarActivity implements BridgeService.Dev
 		mStatus = (TextView) findViewById(R.id.text_status);
 		mGlassStatus = (TextView) findViewById(R.id.text_glass_status);
 		mWearStatus = (TextView) findViewById(R.id.text_wear_status);
-		mGlassPick = (Button) findViewById(R.id.button_glass_pick);
-
-		mGlassPick.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), DeviceList.class);
-				startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
-			}
-		});
 
 		// Add a toggle switch to the Toolbar
 		mRunningSwitch = new Switch(this);
@@ -162,7 +152,6 @@ public class MainActivity extends ActionBarActivity implements BridgeService.Dev
 
 			if(mGlassStatus.getVisibility() < 1) {
 				mGlassStatus.animate().alpha(1).start();
-				mGlassPick.animate().alpha(1).translationY(0).start();
 				mWearStatus.animate().alpha(1).translationY(0).start();
 			}
 		} else {
@@ -172,7 +161,6 @@ public class MainActivity extends ActionBarActivity implements BridgeService.Dev
 			if(mGlassStatus.getAlpha() > 0) {
 				// Animate out
 				mGlassStatus.animate().alpha(0).start();
-				mGlassPick.animate().alpha(0).translationY(-mGlassPick.getHeight()/2).start();
 				mWearStatus.animate().alpha(0).translationY(-mWearStatus.getHeight()).start();
 			}
 		}

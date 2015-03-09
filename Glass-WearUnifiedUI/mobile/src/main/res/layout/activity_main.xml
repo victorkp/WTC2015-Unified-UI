@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="32dp"
         app:theme="@style/AppThemeToolbar"
         app:popupTheme="@style/Theme.AppCompat" />
 
@@ -58,13 +59,6 @@
                 android:text="@string/wear_disconnected"
                 android:textColor="@color/error_text"  />
 
-            <Button
-                android:id="@+id/button_glass_pick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center"
-                android:text="Pick Glass" />
 
             </LinearLayout>
 

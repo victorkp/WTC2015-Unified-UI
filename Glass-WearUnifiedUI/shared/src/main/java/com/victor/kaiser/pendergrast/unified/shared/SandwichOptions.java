@@ -1,4 +1,4 @@
-package com.kaiser.pendergrast.unified.demo;
+package com.victor.kaiser.pendergrast.unified.shared;
 
 public class SandwichOptions {
 

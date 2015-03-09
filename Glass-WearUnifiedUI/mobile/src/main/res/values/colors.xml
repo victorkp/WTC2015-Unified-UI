@@ -5,5 +5,6 @@
     <color name="primarydark">#1251BD</color>
     <color name="accent">#74A2F1</color>
     <color name="text">#555555</color>
+    <color name="text_light">#FFFFFF</color>
     <color name="error_text">#FF4444</color>
 </resources>

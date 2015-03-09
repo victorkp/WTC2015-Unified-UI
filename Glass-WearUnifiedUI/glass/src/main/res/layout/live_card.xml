@@ -7,10 +7,11 @@
     <ImageView
         android:id="@+id/card_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_ready"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:layout_gravity="center_horizontal"/>
 
     <FrameLayout
         android:id="@+id/card_text_container"

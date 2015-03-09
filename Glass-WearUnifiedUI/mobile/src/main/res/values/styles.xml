@@ -10,7 +10,7 @@
         <item name="android:textColorPrimary">@color/text</item>
     </style>
     <style name="AppThemeToolbar" parent="Theme.AppCompat">
-        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorPrimary">@color/text_light</item>
         <item name="actionMenuTextColor">@color/text</item>
         <item name="android:background">@color/primary</item>
     </style>

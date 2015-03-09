@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Glass-Wear UnifiedUI</string>
+    <string name="app_name">UnifiedUI</string>
     <string name="switch_run">Alert on Android Wear</string>
     <string name="status_not_running">Not Using Android Wear</string>
     <string name="status_running_error">Waiting on Glass/Wear</string>

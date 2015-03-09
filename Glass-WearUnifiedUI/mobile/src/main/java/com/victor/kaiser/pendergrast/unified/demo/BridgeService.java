@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 import app.akexorcist.bluetoothspp.BluetoothSPP;
 import app.akexorcist.bluetoothspp.BluetoothState;
-import app.akexorcist.bluetoothspp.DeviceList;
 
 public class BridgeService extends Service implements GoogleApiClient.ConnectionCallbacks,
 							GoogleApiClient.OnConnectionFailedListener, BluetoothSPP.AutoConnectionListener, BluetoothSPP.BluetoothConnectionListener,
@@ -106,6 +105,12 @@ public class BridgeService extends Service implements GoogleApiClient.Connection
 		mBluetoothSerial.setBluetoothConnectionListener(this);
 		mBluetoothSerial.setOnDataReceivedListener(this);
 		mBluetoothSerial.setAutoConnectionListener(this);
+		mBluetoothSerial.setBluetoothStateListener(this);
+		mBluetoothSerial.setupService();
+		mBluetoothSerial.startService(BluetoothState.DEVICE_ANDROID);
+		mBluetoothSerial.autoConnect("Glass");
+
+		Wearable.MessageApi.addListener(mGoogleClient, this);
 	}
 
 	@Override
@@ -116,7 +121,8 @@ public class BridgeService extends Service implements GoogleApiClient.Connection
 			Log.d(TAG, "Bluetooth starting auto connect");
 			mBluetoothSerial.enable();
 			mBluetoothSerial.setupService();
-			//mBluetoothSerial.autoConnect(SerialComm.AUTO_CONNECT_PASSPHRASE);
+			mBluetoothSerial.startService(BluetoothState.DEVICE_ANDROID);
+			mBluetoothSerial.autoConnect("Glass");
 		} else {
 			// Try to turn on bluetooth
 			Log.d(TAG, "Trying to turn on bluetooth");
@@ -124,7 +130,6 @@ public class BridgeService extends Service implements GoogleApiClient.Connection
 				mBluetoothSerial.enable();
 				mBluetoothSerial.setupService();
 				mBluetoothSerial.startService(BluetoothState.DEVICE_ANDROID);
-				//mBluetoothSerial.autoConnect(SerialComm.AUTO_CONNECT_PASSPHRASE);
 			}
 		}
 
@@ -137,6 +142,9 @@ public class BridgeService extends Service implements GoogleApiClient.Connection
 	public void onDestroy() {
 		super.onDestroy();
 		mIsRunning = false;
+
+		mBluetoothSerial.stopAutoConnect();
+		mBluetoothSerial.stopService();
 
 		if(mGoogleClient.isConnected()) {
 			mGoogleClient.disconnect();
@@ -169,11 +177,11 @@ public class BridgeService extends Service implements GoogleApiClient.Connection
 		}
 	}
 
-	private void showWearableOrderReady() {
+	private void sendWearableMessage(final String path) {
 		if(mGoogleClient.isConnected() && mWearableConnected) {
 			for(Node node : mNodes) {
-				Log.i(TAG, "Sending sleep alert message to " + node.getDisplayName());
-				PendingResult<MessageApi.SendMessageResult> result = Wearable.MessageApi.sendMessage(mGoogleClient, node.getId(), WearableComm.PATH_SHOW_SANDWICH_ALERT, null);
+				Log.i(TAG, "Sending message to " + node.getDisplayName());
+				PendingResult<MessageApi.SendMessageResult> result = Wearable.MessageApi.sendMessage(mGoogleClient, node.getId(), path, null);
 				result.setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
 					@Override
 					public void onResult(MessageApi.SendMessageResult sendMessageResult) {
@@ -228,10 +236,18 @@ public class BridgeService extends Service implements GoogleApiClient.Connection
 	@Override
 	public void onDataReceived(byte[] data, String string) {
 		Log.d(TAG, "onDataReceived: " + string);
-		if(string.contains(SerialComm.ORDER_READY)){
+		if(string.contains(SerialComm.ORDER_READY)) {
 			// Show the sleep alert on wearable
-			Log.d(TAG, "Received sleep alert, sending");
-			showWearableOrderReady();
+			Log.d(TAG, "Received order ready, sending");
+			sendWearableMessage(WearableComm.PATH_SHOW_SANDWICH_ALERT);
+		} else if (string.contains(SerialComm.SHOW_BREAD_LIST)) {
+			// Show the bread list on Android Wear
+			Log.d(TAG, "Received show bread list, sending");
+			sendWearableMessage(WearableComm.PATH_SHOW_BREAD_LIST);
+		} else if (string.contains(SerialComm.SHOW_CHEESE_LIST)){
+			// Show the cheese list on Android Wear
+			Log.d(TAG, "Received show cheese list, sending");
+			sendWearableMessage(WearableComm.PATH_SHOW_CHEESE_LIST);
 		} else {
 			Log.e(TAG, "Unknown command");
 		}
@@ -262,24 +278,20 @@ public class BridgeService extends Service implements GoogleApiClient.Connection
 
 	@Override
 	public void onServiceStateChanged(int state) {
-		switch(state) {
-			case BluetoothState.STATE_CONNECTED:
-				Log.i(TAG, "Bluetooth state: connected");
-				break;
-			case BluetoothState.STATE_CONNECTING:
-				Log.i(TAG, "Bluetooth state: connecting");
-				break;
-			case BluetoothState.STATE_LISTEN:
-				Log.i(TAG, "Bluetooth state: connecting");
-			case BluetoothState.STATE_NONE:
-				Log.i(TAG, "Bluetooth state: none");
-				break;
-			case BluetoothState.STATE_NULL:
-				Log.i(TAG, "Bluetooth state: null");
-				break;
-			default:
-				Log.i(TAG, "Bluetooth state: " + state);
-				break;
+		Log.d(TAG, "Bluetooth State: " + state);
+		if(state == BluetoothState.STATE_CONNECTED) {
+			Log.d(TAG, "Bluetooth state: connected");
+			mGlassConnected = true;
+			if(mListener != null ) {
+				mListener.onGlassConnected();
+			}
+		} else {
+			Log.d(TAG, "Bluetooth state: disconnected");
+			mGlassConnected = false;
+			mBluetoothSerial.autoConnect("Glass");
+			if(mListener != null ) {
+				mListener.onGlassDisconnected();
+			}
 		}
 	}
 
@@ -315,7 +327,14 @@ public class BridgeService extends Service implements GoogleApiClient.Connection
 		byte[] data = messageEvent.getData();
 		String message = new String(data);
 		Log.i(TAG, "Message Received: " + message);
-	}
 
+		if(message.contains(WearableComm.PATH_BREAD_PICKED)) {
+			mBluetoothSerial.send(SerialComm.BREAD_PICKED + message.replace(WearableComm.PATH_BREAD_PICKED, ""));
+		} else if (message.contains(WearableComm.PATH_CHEESE_PICKED)) {
+			mBluetoothSerial.send(SerialComm.CHEESE_PICKED + message.replace(WearableComm.PATH_CHEESE_PICKED, ""));
+		} else {
+			Log.i(TAG, "Unknown message");
+		}
+	}
 
 }

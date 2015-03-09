@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.victor.kaiser.pendergrast.unified.shared.R;
-
 
 public class MenuActivity extends Activity {
 
@@ -44,9 +42,13 @@ public class MenuActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId()  == R.id.action_stop) {
-			stopService(new Intent(this, LiveCardService.class));
-			return true;
+		switch(item.getItemId()) {
+			case R.id.action_stop:
+				stopService(new Intent(this, LiveCardService.class));
+				return true;
+			case R.id.action_order:
+				startActivity(new Intent(this, OrderActivity.class));
+				return true;
 		}
 
 		return super.onOptionsItemSelected(item);

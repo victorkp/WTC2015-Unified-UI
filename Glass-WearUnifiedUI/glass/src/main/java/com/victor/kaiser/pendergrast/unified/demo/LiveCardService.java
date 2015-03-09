@@ -10,7 +10,6 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.google.android.glass.timeline.LiveCard;
-import com.victor.kaiser.pendergrast.unified.shared.R;
 import com.victor.kaiser.pendergrast.unified.shared.SerialComm;
 
 import app.akexorcist.bluetoothspp.BluetoothSPP;
@@ -22,7 +21,8 @@ import app.akexorcist.bluetoothspp.BluetoothState;
  * and handle those messages
  */
 public class LiveCardService extends Service implements BluetoothSPP.BluetoothConnectionListener,
-								BluetoothSPP.AutoConnectionListener, BluetoothSPP.OnDataReceivedListener {
+								BluetoothSPP.AutoConnectionListener, BluetoothSPP.OnDataReceivedListener,
+								BluetoothSPP.BluetoothStateListener {
 
 	public static final String TAG = "LiveCardService";
 	public static final String CARD_TAG = "unified_demo_card";
@@ -66,8 +66,12 @@ public class LiveCardService extends Service implements BluetoothSPP.BluetoothCo
 		 * Response is sent to SandwichListener
 		 */
 		public void requestBreadSelection() {
+			Log.d(TAG, "Requesting bread selection");
 			if(mHandsetConnected) {
 				mBluetoothSPP.send(SerialComm.SHOW_BREAD_LIST);
+				Log.d(TAG, "Sent bread selection");
+			} else {
+				Log.d(TAG, "Handset not connected");
 			}
 		}
 
@@ -79,6 +83,16 @@ public class LiveCardService extends Service implements BluetoothSPP.BluetoothCo
 		public void requestCheeseSelection() {
 			if(mHandsetConnected) {
 				mBluetoothSPP.send(SerialComm.SHOW_CHEESE_LIST);
+			}
+		}
+
+		/**
+		 * Request connected Android Wear device
+		 * to display an "Order is ready" alert
+		 */
+		public void requestOrderReadyAlert() {
+			if(mHandsetConnected) {
+				mBluetoothSPP.send(SerialComm.ORDER_READY);
 			}
 		}
 	}
@@ -106,6 +120,9 @@ public class LiveCardService extends Service implements BluetoothSPP.BluetoothCo
 		mBluetoothSPP = new BluetoothSPP(this);
 		mBluetoothSPP.setBluetoothConnectionListener(this);
 		mBluetoothSPP.setOnDataReceivedListener(this);
+		mBluetoothSPP.setAutoConnectionListener(this);
+		mBluetoothSPP.setBluetoothStateListener(this);
+		mBluetoothSPP.setupService();
 		mBluetoothSPP.startService(BluetoothState.DEVICE_ANDROID);
 	}
 
@@ -167,6 +184,16 @@ public class LiveCardService extends Service implements BluetoothSPP.BluetoothCo
 	public void onNewConnection(String device, String address) {
 		Log.i(TAG, "New Connection: " + device);
 		mHandsetConnected = true;
+	}
+
+	@Override
+	public void onServiceStateChanged(int state) {
+		Log.d(TAG, "Bluetooth State: " + state);
+		if(state == BluetoothState.STATE_CONNECTED) {
+			mHandsetConnected = true;
+		} else {
+			mHandsetConnected = false;
+		}
 	}
 
 	@Override

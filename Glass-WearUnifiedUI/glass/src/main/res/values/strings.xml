@@ -16,7 +16,8 @@
     <!-- Status Messages -->
     <string name="pick_bread">Pick bread</string>
     <string name="pick_cheese">Pick cheese</string>
-    <string name="making_sandwich">Sandwich</string>
+    <string name="making_sandwich">Making sandwich...</string>
     <string name="done">Order ready for pickup!</string>
+    <string name="action_new_order">New Order</string>
 
 </resources>
