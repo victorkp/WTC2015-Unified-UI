@@ -9,6 +9,4 @@ public class SerialComm {
 	public static final String CHEESE_PICKED = "cheese_picked_";
 	public static final String ORDER_READY = "order_ready";
 
-	public static final String AUTO_CONNECT_PASSPHRASE = "sandwich_serial";
-
 }

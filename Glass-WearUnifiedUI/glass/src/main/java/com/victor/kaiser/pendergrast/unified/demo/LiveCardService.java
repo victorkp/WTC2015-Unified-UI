@@ -56,7 +56,7 @@ public class LiveCardService extends Service implements BluetoothSPP.BluetoothCo
 	}
 
 	public class LiveCardBinder extends Binder {
-		public void setOnSandwichListener(SandwichListener listener) {
+		public void setSandwichListener(SandwichListener listener) {
 			mSandwichListener = listener;
 		}
 
@@ -208,12 +208,12 @@ public class LiveCardService extends Service implements BluetoothSPP.BluetoothCo
 
 		if(data.equals(SerialComm.ORDER_CANCELED)) {
 			// Tell sandwich listener to stop
-		} else if (data.equals(SerialComm.BREAD_PICKED)) {
+		} else if (data.contains(SerialComm.BREAD_PICKED)) {
 			// Inform sandwich listener 
 			if(mSandwichListener != null) { 
 				mSandwichListener.onBreadPicked(data.substring(SerialComm.BREAD_PICKED.length()));
 			}
-		} else if (data.equals(SerialComm.CHEESE_PICKED)) {
+		} else if (data.contains(SerialComm.CHEESE_PICKED)) {
 			// Inform sandwich listener 
 			if(mSandwichListener != null) { 
 				mSandwichListener.onCheesePicked(data.substring(SerialComm.CHEESE_PICKED.length()));

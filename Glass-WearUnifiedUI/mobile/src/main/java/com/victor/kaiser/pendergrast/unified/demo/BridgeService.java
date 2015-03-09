@@ -324,13 +324,14 @@ public class BridgeService extends Service implements GoogleApiClient.Connection
 	// MessageApi.MessageListener Callbacks
 	@Override
 	public void onMessageReceived(MessageEvent messageEvent) {
-		byte[] data = messageEvent.getData();
-		String message = new String(data);
+		String message = messageEvent.getPath();
 		Log.i(TAG, "Message Received: " + message);
 
 		if(message.contains(WearableComm.PATH_BREAD_PICKED)) {
+			Log.d(TAG, "Sending bread pick to Glass");
 			mBluetoothSerial.send(SerialComm.BREAD_PICKED + message.replace(WearableComm.PATH_BREAD_PICKED, ""));
 		} else if (message.contains(WearableComm.PATH_CHEESE_PICKED)) {
+			Log.d(TAG, "Sending cheese pick to Glass");
 			mBluetoothSerial.send(SerialComm.CHEESE_PICKED + message.replace(WearableComm.PATH_CHEESE_PICKED, ""));
 		} else {
 			Log.i(TAG, "Unknown message");

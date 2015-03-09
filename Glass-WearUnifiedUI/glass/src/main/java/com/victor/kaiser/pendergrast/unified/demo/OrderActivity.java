@@ -23,7 +23,7 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			if (service instanceof LiveCardService.LiveCardBinder) {
 				mBinder = (LiveCardService.LiveCardBinder) service;
-				mBinder.setOnSandwichListener(OrderActivity.this);
+				mBinder.setSandwichListener(OrderActivity.this);
 
 				// Request a bread selection as soon as we're bound
 				mBinder.requestBreadSelection();
@@ -43,7 +43,7 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 		super.onCreate(savedInstanceState);
 
 		// Keep the screen on
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		setContentView(R.layout.activity_order);
 
