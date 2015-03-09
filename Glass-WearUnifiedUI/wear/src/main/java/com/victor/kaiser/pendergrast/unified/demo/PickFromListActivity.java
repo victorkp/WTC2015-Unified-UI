@@ -56,6 +56,8 @@ public class PickFromListActivity extends Activity {
 	private TextView mTitle;
 	private ListView mList;
 
+	private boolean mItemWasPicked = false;
+
 	private GoogleApiClient mGoogleClient;
 
 	@Override
@@ -106,35 +108,62 @@ public class PickFromListActivity extends Activity {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-				if(mGoogleClient.isConnected()) {
-					Wearable.NodeApi.getConnectedNodes(mGoogleClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
-						@Override
-						public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
-							String path = mSelectionPath + mListItems[position];
-							Log.i(TAG, "Sending \"" + path + "\"");
-							for(Node node : getConnectedNodesResult.getNodes()) {
-								Log.i(TAG, "Sending message to " + node.getDisplayName());
-								PendingResult<MessageApi.SendMessageResult> result = Wearable.MessageApi.sendMessage(mGoogleClient, node.getId(), path, null);
-								result.setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
-									@Override
-									public void onResult(MessageApi.SendMessageResult sendMessageResult) {
-										Log.i(TAG, "Delivering message status: " + sendMessageResult.getStatus().getStatusMessage());
-									}
-								});
-							}
-
-							PickFromListActivity.this.finish();
-						}
-					});
-				} else {
-					Log.e(TAG, "GoogleApiClient not connected");
-				}
+				mItemWasPicked = true;
+				sendMessage(mSelectionPath + mListItems[position], true);
 			}
 		});
 
 		// Vibrate to alert user
 		Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 		vibrator.vibrate(150);
+	}
+
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if(!mItemWasPicked) {
+			// Tell Glass that the user closed this Activity - 
+			// canceling the order making process
+			sendMessage(mCancelPath, false);
+		}
+	}
+
+
+	/**
+	 * Send a Message to all connected Nodes
+	 * @param path path of the message
+	 * @param shouldFinish if this Activity should be finish()'d after send/error
+	 */
+	private void sendMessage(final String path, final boolean shouldFinish) {
+		if(mGoogleClient.isConnected()) {
+			Wearable.NodeApi.getConnectedNodes(mGoogleClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+				@Override
+				public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
+					Log.i(TAG, "Sending \"" + path + "\"");
+
+					for(Node node : getConnectedNodesResult.getNodes()) {
+						Log.i(TAG, "Sending message to " + node.getDisplayName());
+						PendingResult<MessageApi.SendMessageResult> result = Wearable.MessageApi.sendMessage(mGoogleClient, node.getId(), path, null);
+						result.setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
+							@Override
+							public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+								Log.i(TAG, "Delivering message status: " + sendMessageResult.getStatus().getStatusMessage());
+							}
+						});
+					}
+
+					if(shouldFinish) {
+						PickFromListActivity.this.finish();
+					}
+				}
+			});
+		} else {
+			Log.e(TAG, "GoogleApiClient not connected");
+			if(shouldFinish) {
+				PickFromListActivity.this.finish();
+			}
+		}
 	}
 
 }
