@@ -1,7 +1,14 @@
-package com.victor.kaiser.pendergrast.unified.demo.shared;
+package com.victor.kaiser.pendergrast.unified.demo;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.view.WindowManager;
+import android.widget.TextView;
+
+import com.victor.kaiser.pendergrast.unified.shared.R;
 
 
 public class OrderActivity extends Activity implements LiveCardService.SandwichListener {
@@ -11,14 +18,14 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 	private TextView mStatus;
 
 	private boolean mBoundToService;
-	private LiveCardBinder mBinder;
+	private LiveCardService.LiveCardBinder mBinder;
 
 	private ServiceConnection mServiceConn = new ServiceConnection() {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			if (service instanceof LiveCardService.LiveCardBinder) {
-				mServiceBinder = (LiveCardService.LiveCardBinder) service;
-				mServiceBinder.setSandwichListener(OrderActivity.this);
+				mBinder = (LiveCardService.LiveCardBinder) service;
+				mBinder.setOnSandwichListener(OrderActivity.this);
 			}
 
 			mBoundToService = true;
@@ -39,9 +46,9 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 
 		setContentView(R.layout.activity_order);
 
-		mBreadSelection = (TextView) findViewByid(R.id.bread_selection);
-		mCheeseSelection = (TextView) findViewByid(R.id.cheese_selection);
-		mStatus = (TextView) findViewByid(R.id.status);
+		mBreadSelection = (TextView) findViewById(R.id.bread_selection);
+		mCheeseSelection = (TextView) findViewById(R.id.cheese_selection);
+		mStatus = (TextView) findViewById(R.id.status);
 
 		// Start off by asking user to select bread
 		mStatus.setText(R.string.pick_bread);
@@ -52,7 +59,7 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 		super.onDestroy();
 
 		if(mBoundToService) {
-			unbindService(
+			unbindService(mServiceConn);
 		}
 	}
 
@@ -83,7 +90,7 @@ public class OrderActivity extends Activity implements LiveCardService.SandwichL
 			public void run() {
 				try  {
 					Thread.sleep(5000);
-				} cach (InterruptedException e) {
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				runOnUiThread(new Runnable() {

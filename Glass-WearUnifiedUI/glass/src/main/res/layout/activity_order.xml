@@ -9,7 +9,7 @@
               android:layout_gravity="center"
               android:gravity="center"
               android:orientation="vertical"
-              tools:context="com.victor.kaiser.pendergrast.unified.demo.shared.demo.OrderSubmissionActivity">
+              tools:context="com.victor.kaiser.pendergrast.unified.shared.demo.OrderSubmissionActivity">
 
 
     <LinearLayout

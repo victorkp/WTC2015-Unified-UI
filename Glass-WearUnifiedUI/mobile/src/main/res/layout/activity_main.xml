@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context=".MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        app:theme="@style/AppThemeToolbar"
+        app:popupTheme="@style/Theme.AppCompat" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"
+                android:textSize="22sp"
+                android:text="@string/status_not_running"
+                android:textColor="@color/error_text" />
+
+            <TextView
+                android:id="@+id/text_glass_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:textSize="19sp"
+                android:text="@string/glass_disconnected"
+                android:textColor="@color/error_text" />
+
+
+            <TextView
+                android:id="@+id/text_wear_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="19sp"
+                android:text="@string/wear_disconnected"
+                android:textColor="@color/error_text"  />
+
+            <Button
+                android:id="@+id/button_glass_pick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center"
+                android:text="Pick Glass" />
+
+            </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.victor.kaiser.pendergrast.unified.demo.shared.demo.MenuActivity">
+      tools:context="com.victor.kaiser.pendergrast.unified.shared.demo.MenuActivity">
     <item android:id="@+id/action_stop"
           android:title="@string/stop"
           android:orderInCategory="100"

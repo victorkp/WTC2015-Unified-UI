@@ -1,4 +1,4 @@
-package com.victor.kaiser.pendergrast.unified.demo.shared;
+package com.victor.kaiser.pendergrast.unified.demo;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -10,6 +10,8 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.google.android.glass.timeline.LiveCard;
+import com.victor.kaiser.pendergrast.unified.shared.R;
+import com.victor.kaiser.pendergrast.unified.shared.SerialComm;
 
 import app.akexorcist.bluetoothspp.BluetoothSPP;
 import app.akexorcist.bluetoothspp.BluetoothState;

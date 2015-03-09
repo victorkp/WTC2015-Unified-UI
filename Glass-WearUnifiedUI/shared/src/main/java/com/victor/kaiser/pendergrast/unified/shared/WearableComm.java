@@ -1,8 +1,5 @@
-package com.victor.kaiser.pendergrast.unified.demo.shared;
+package com.victor.kaiser.pendergrast.unified.shared;
 
-/**
- * Created by vkaiser-pendergrast on 1/8/15.
- */
 public class WearableComm {
 	public static final String PATH_ORDER_CANCELED = "/order_canceled";
 	public static final String PATH_SHOW_BREAD_LIST = "/show_bread_list";

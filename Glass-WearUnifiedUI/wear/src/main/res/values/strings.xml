@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Glass-Wear UnifiedUI</string>
+    <string name="order_done">Order ready for pickup!</string>
 </resources>

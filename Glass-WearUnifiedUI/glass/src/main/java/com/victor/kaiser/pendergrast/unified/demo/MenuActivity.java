@@ -1,9 +1,12 @@
-package com.victor.kaiser.pendergrast.unified.demo.shared;
+package com.victor.kaiser.pendergrast.unified.demo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.victor.kaiser.pendergrast.unified.shared.R;
 
 
 public class MenuActivity extends Activity {
