@@ -131,6 +131,10 @@ public class PickFromListActivity extends Activity {
 				}
 			}
 		});
+
+		// Vibrate to alert user
+		Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+		vibrator.vibrate(150);
 	}
 
 }
