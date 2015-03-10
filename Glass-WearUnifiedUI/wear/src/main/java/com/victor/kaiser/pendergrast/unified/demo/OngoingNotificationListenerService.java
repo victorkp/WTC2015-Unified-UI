@@ -25,10 +25,15 @@ public class OngoingNotificationListenerService extends WearableListenerService 
 			// Start the PickFromListActivity, pass Bread path and Bread list
 			Intent showBreads = new Intent(getBaseContext(), PickFromListActivity.class);
 			showBreads.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			showBreads.putExtra(PickFromListActivity.KEY_TITLE, getString(R.string.title_bread));
-			showBreads.putExtra(PickFromListActivity.KEY_SELECTION_PATH, WearableComm.PATH_BREAD_PICKED);
-			showBreads.putExtra(PickFromListActivity.KEY_LIST_ITEMS, SandwichOptions.BREAD_OPTIONS);
-			showBreads.putExtra(PickFromListActivity.KEY_CANCEL_PATH, WearableComm.PATH_ORDER_CANCELED);
+			showBreads.putExtra(PickFromListActivity.KEY_TITLE, 
+					getString(R.string.title_bread));
+			showBreads.putExtra(PickFromListActivity.KEY_SELECTION_PATH, 
+					WearableComm.PATH_BREAD_PICKED);
+			showBreads.putExtra(PickFromListActivity.KEY_LIST_ITEMS, 
+					SandwichOptions.BREAD_OPTIONS);
+			showBreads.putExtra(PickFromListActivity.KEY_CANCEL_PATH, 
+					WearableComm.PATH_ORDER_CANCELED);
+
 			getApplication().startActivity(showBreads);
 		} else if(messageEvent.getPath().equals(WearableComm.PATH_SHOW_CHEESE_LIST)) {
 			// Start the PickFromListActivity, pass Cheese path and Cheese list

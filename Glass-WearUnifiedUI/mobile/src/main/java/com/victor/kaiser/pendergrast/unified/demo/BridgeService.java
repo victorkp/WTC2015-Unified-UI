@@ -181,11 +181,13 @@ public class BridgeService extends Service implements GoogleApiClient.Connection
 		if(mGoogleClient.isConnected() && mWearableConnected) {
 			for(Node node : mNodes) {
 				Log.i(TAG, "Sending message to " + node.getDisplayName());
-				PendingResult<MessageApi.SendMessageResult> result = Wearable.MessageApi.sendMessage(mGoogleClient, node.getId(), path, null);
+				PendingResult<MessageApi.SendMessageResult> result = 
+						Wearable.MessageApi.sendMessage(mGoogleClient, node.getId(), path, null);
 				result.setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
 					@Override
 					public void onResult(MessageApi.SendMessageResult sendMessageResult) {
-						Log.i(TAG, "Delivering message status: " + sendMessageResult.getStatus().getStatusMessage());
+						Log.i(TAG, "Delivering message status: " + 
+								sendMessageResult.getStatus().getStatusMessage());
 					}
 				});
 			}

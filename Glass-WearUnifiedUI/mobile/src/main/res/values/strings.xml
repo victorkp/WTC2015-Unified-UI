@@ -4,7 +4,7 @@
     <string name="status_not_running">Not Using Android Wear</string>
     <string name="status_running_error">Waiting on Glass/Wear</string>
     <string name="status_running">Mirroring Alerts on Android Wear</string>
-    <string name="glass_connected">Connected to DriveSafe on Glass</string>
+    <string name="glass_connected">Connected to Glass</string>
     <string name="glass_disconnected">Not connected to Glass</string>
     <string name="wear_connected">Connected to Android Wear</string>
     <string name="wear_disconnected">Not connected to Android Wear</string>
